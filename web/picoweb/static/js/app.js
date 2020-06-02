@@ -1602,7 +1602,7 @@ function setTitle(data) {
     } else if (window.system_info.version) {
         version = window.system_info.version;
     }
-    document.title = 'Webserver Picochess ' + version + ip;
+    document.title = 'Picochess ' + version + '.' + ip;
 }
 
 // copied from loadGame()
