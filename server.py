@@ -154,7 +154,7 @@ class InfoHandler(ServerRequestHandler):
 
 class ChessBoardHandler(ServerRequestHandler):
     def get(self):
-        self.render('web/picoweb/templates/clock.html')
+        self.render('web/picoweb/templates/index.html')
 
 
 class WebServer(threading.Thread):
