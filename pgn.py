@@ -183,7 +183,7 @@ class PgnDisplay(DisplayMsg, threading.Thread):
         if self.level_text is None:
             engine_level = ''
         else:
-            engine_level = ' ({})'.format(self.level_text.m)
+            engine_level = ' ({})'.format(self.level_text.l)    # correct char width on webserver Scally
 
         if self.level_name.startswith('Elo@'):
             comp_elo = int(self.level_name[4:])
@@ -204,7 +204,7 @@ class PgnDisplay(DisplayMsg, threading.Thread):
 
         pgn_game.headers['Time'] = self.startime
         
-        pgn_game_last = pgn_game
+        pgn_game_last = copy.copy(pgn_game)
 
         # Save to file
         ## molli save game in a single last game

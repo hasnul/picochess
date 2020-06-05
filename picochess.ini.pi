@@ -30,7 +30,7 @@
 ## MAP = 4    All Events coming from Queen placing at start pos (line3-6)
 ## OKAY = 8   All Events from "ok" (confirm) messages
 ## For example to beep on "ok messages" and "button press" beep-some-level is: 8(okay) + 2(button) = 10
-beep-some-level = 1
+beep-some-level = 0
 ## Specify the serial port your dgt-board is connected to.
 ## If you dont give a parameter picochess tries to find the board automatically (prefered usage).
 # dgt-port = /dev/ttyACM0
@@ -43,7 +43,7 @@ beep-some-level = 1
 dgtpi = True
 ### You can reduce the dgtboard piece recognition by a factor from 0 to 9. Please only use this, if you suffer from
 ### sliding problems (like multi voices during you slide your pieces for example moving Bf1-b5 hear Be2,d3,c4 then b5).
-# slow-slide = 5
+slow-slide = 7
 
 ### ========================
 ### = Chess engine options =
@@ -55,7 +55,7 @@ dgtpi = True
 ## Path to the engine relative to the 'picochess' folder (local engine - standard case)
 # engine = engines/armv7l/a-stockf
 ## What level the engine should have at startup?
-## For a (correct) value please take a look at 'engines/<your_plattform>/<engine_name>.uci'
+## For a (correct) value please take a look at 'engines/<your_platform>/<engine_name>.uci'
 # engine-level = Level@20
 
 ### =========================
@@ -106,7 +106,7 @@ dgtpi = True
 ### Mail general
 ### if email is not set, PicoChess won't attempt to send the game at all
 ## email tells PicoChess to which email address the game should be send to, it should be your email address :-)
-# email = your.mailbox@your-domain.com 
+#email = ********
 
 ### =======================================
 ### = Section for email delivery via SMTP =
@@ -114,15 +114,15 @@ dgtpi = True
 
 ### if smtp_server is not set, PicoChess won't attempt to send the game via SMTP
 ## smtp-server must contain the address of your smtp server (e.g. smtp.gmail.com)
-# smtp-server = smtp.your-mailserver.com
+#smtp-server = smtp.gmail.com
 ## smtp-user is necessary if your smtp server requires authentication, sets your username
-# smtp-user = your_username
+#smtp-user = ********
 ## smtp-pass is necessary if your smtp server requires authentication, sets your password
-# smtp-pass = your_secret_password
+#smtp-pass = ********
 ## Should PicoChess SSL-encrypt the communication with your smtp server (Port 465)?
 ## Otherwise PicoChess will use the default and unencrypted SMTP Port 21.
 ## Some SMTP Server require an SSL encryption (e.g. GMAIL). If so, uncomment the next line.
-# smtp-encryption = True
+#smtp-encryption = True
 ## In case the SMTP Server thinks you are spamming, you must enter a valid from email here
 # smtp-from = no-reply@picochess.org
 
@@ -140,28 +140,25 @@ dgtpi = True
 
 ## log-file points to a file that is used to write the log information.
 ## This file is created in the 'log' folder. Altogether there are 6 log files kept (rotating logs)
-# log-file = picochess.log
+log-file = picochess.log
 ## What log level should be used 
 ## Loglevel options are [debug, info, warning, error, critical]
-# log-level = debug
-## PicoChess can use human voices for announcement
-## Valid voice names are formed from 'talker/voices' folder structure. Please take a look there.
-## If you want voice output, please uncomment these settings
+log-level = debug
 ## user-voice used for user moves announcement
-# user-voice = en:christina
+user-voice = en:al
 ## computer-voice for computer moves announcement
-# computer-voice = en:al
+computer-voice = en:dmitri
 ## Increase, decrease the voice speed factor. Must be between 0 to 9. Default is 2 (100%)
 ## Each step is 5% starting from 90% towards 135%. Sets factor for both voices (user/computer)
-# speed-voice = 2
+speed-voice = 7
 ## Speak last computer move again when 'set pieces' displayed
 enable-setpieces-voice = True
 ## PicoChess writes pgn files at end of game. This file is created in the 'games' folder
-# pgn-file = games.pgn
+pgn-file = games.pgn
 ## If you want to have your own name in the pgn file uncomment the next line and change accordingly
-# pgn-user = Human
+pgn-user = Player
 ## If you want your own ELO-ranking in the pgn file uncomment the next line and change accordingly
-# pgn-elo = 1100
+pgn-elo = elo
 ## Picochess will check for a new version at startup.
 ## This is by default not actived. If you want this feature, please uncomment the next line
 # enable-update = True
@@ -171,20 +168,20 @@ enable-setpieces-voice = True
 # web-server = 8080
 ## When in ponder mode decides how long each info is displayed. Default is 3 secs.
 ## Must be between 1 to 8 secs.
-# ponder-interval = 5
+ponder-interval = 4
 ## Displays messages with only capital letters. Doesn't work on DGTXL/Revelation II due to hardware limits.
 ## If so, please uncomment the next line.
 # enable-capital-letters = True
 ## Should a confirmation message be displayed? If not, please active the next line
-# disable-confirm-message = True
+disable-confirm-message = True
 ## PicoChess messages can be displayed in English, German, Dutch, French, Spanish or Italian.
 ## You can set the language with the "language" option. Default is English.
 ## en = English; de = German; nl = Dutch; fr = French; es = Spanish; it = Italian
 
 language = en
-engine-level = Level@19
-engine = engines/armv7l/a-stockf
 beep-config = some
+time = 5 3
+book = books/a-nobook.bin
 
 ## Should moves be displayed in short notation (only valid for non-XL clocks)? If not, please active the next line
 # disable-short-notation = True
@@ -201,15 +198,15 @@ beep-config = some
 
 ## Rolling information display in "normal" mode (time/score/depth/hintmove) is switched off by default
 ## If you want this please uncomment next line
-# rolling-display-normal = True
+#rolling-display-normal = True
 
 ## Rolling information display in "ponder on" mode (time/score/depth/hintmove) is switched off by default
 ## If you want this please uncomment next line
-# rolling-display-ponder = True
+rolling-display-ponder = True
 
 # Flexible analysis option in Analysis (old Ponder) mode (no valid move checks, etc.) is switched on by default
 ## If don't you want this please uncomment next line
-# flexible-analysis = False
+#flexible-analysis = False
 
 ## Pre-move detection is switched on by default
 ## If don't you want this please uncomment next line
@@ -219,8 +216,23 @@ beep-config = some
 ## Comments are only spoken if you have a specific pico voice set up with additional audio files
 ## So if you don't have any voice set up with audio commentary files or you use a standard pico voice, there
 ## is no need to change this parameter at all 
-# comment-factor = 100
+comment-factor = 50
+
+## Training options: (Currently switched off, training mode works as designed with no extra parameters here)
+
+## Allow overriding of pico's move by your own moves in normal mode is switched off by default
+## If you want this please uncomment next line
+# train-normal = True
+
+## Allow overriding of pico's move by your own moves in ponder on mode is switched off by default
+## If you want this please uncomment next line
+# train-ponder = True
+
+## Allow overriding of pico's move by your own moves in training mode is switched on by default
+## If you don't want this please uncomment next line
+# train-training = False
 
 ## Automatically continue last game after picochess (re-)start is switched off by default.
-## If you want this feature please uncomment next line 
-# continue-game = True
+## If you want this feature please uncomment next line
+continue-game = True
+volume-voice = 8

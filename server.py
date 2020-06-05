@@ -22,6 +22,7 @@ from collections import OrderedDict
 
 import chess
 import chess.pgn as pgn
+import json
 
 import tornado.web
 import tornado.wsgi
@@ -37,14 +38,19 @@ from dgt.iface import DgtIface
 from dgt.translate import DgtTranslate
 from dgt.board import DgtBoard
 
+import pgnjson
+import listengines
+import sqlite3
+
 # This needs to be reworked to be session based (probably by token)
 # Otherwise multiple clients behind a NAT can all play as the 'player'
 client_ips = []
 
 
 class ServerRequestHandler(tornado.web.RequestHandler):
-    def initialize(self, shared=None):
+    def initialize(self, shared=None, database=None):
         self.shared = shared
+        self.database = database
 
     def data_received(self, chunk):
         pass
@@ -152,14 +158,89 @@ class InfoHandler(ServerRequestHandler):
                 self.write(self.shared['clock_text'])
 
 
+class QueryHandler(ServerRequestHandler):
+    def get(self, *args, **kwargs):
+        action = self.get_argument('action')
+        startpage = int(self.get_argument('start'))
+        pagelen = int(self.get_argument('length'))
+        sortcol = int(self.get_argument('order[0][column]'))
+        sortdir = self.get_argument('order[0][dir]')
+        search = self.get_argument('search[value]')
+        if action == 'get_games':
+            if 'games_json' in self.shared:
+                self.write(self.shared['games_json'])
+            else:
+                self.shared['games_json'] = pgnjson.pgn_to_json('games/games.pgn')
+                self.write(self.shared['games_json'])
+        if action == 'get_engines':
+            if len(search) == 0:
+                rows, total, filtered = self.getrows('engines', startpage, pagelen, sortcol, sortdir)
+            else:
+                rows, total, filtered = self.getrows('engines', startpage, pagelen, sortcol, sortdir, search)
+            logging.debug("Here")
+            logging.debug(total)
+            query_json = '{"recordsTotal":' + str(total) + ','
+            query_json += '"recordsFiltered":' + str(filtered) + ","
+            query_json += '"data":' + json.dumps(rows) + '}'
+            self.write(query_json)
+
+    def getrows(self, table: str, offset: int, pagelen: int, sortcol, sortdir, search=None):
+        logging.debug("Getting rows...")
+        db = self.database
+        result = None
+        total_records = 0
+        filtered_records = 0
+        try:
+            cursor = db.cursor()
+            count_query = "SELECT COUNT(*) FROM " + table
+            cursor.execute(count_query)
+            total_records = cursor.fetchall()[0][0]
+            logging.debug(total_records)
+            filtered_records = total_records
+            query = ["SELECT * FROM", table]
+            if search is not None:
+                search = "'%" + search + "%'"
+                query.extend(["WHERE name LIKE", search])
+            colquery = "SELECT name FROM PRAGMA_TABLE_INFO('" + table + "')"
+            cursor.execute(colquery)
+            columns = cursor.fetchall()
+            column_name = columns[sortcol][0]
+            query.extend(["ORDER BY", column_name])
+            if sortdir == 'desc':
+                query.append("DESC")
+            else:
+                query.append("ASC")
+            query.extend(["LIMIT", str(pagelen), "OFFSET", str(offset)])
+            query_str = " ".join(query)
+            logging.debug("Query string: %s" % query_str)
+            cursor.execute(query_str)
+            result = cursor.fetchall()
+            if search is not None:
+                filtered_records = len(result)
+        except sqlite3.Error as error:
+            logging.debug('Database error: %s' % error)
+        return result, total_records, filtered_records
+            
+
 class ChessBoardHandler(ServerRequestHandler):
     def get(self):
         self.render('web/picoweb/templates/index.html')
 
 
+class GamesHandler(ServerRequestHandler):
+    def get(self):
+        self.render('web/picoweb/templates/games.html')
+
+
+class EngineHandler(ServerRequestHandler):
+    def get(self):
+        self.render('web/picoweb/templates/engines.html')
+
+
 class WebServer(threading.Thread):
     def __init__(self, port: int, dgtboard: DgtBoard):
         shared = {}
+        db = self.init_database()
 
         WebDisplay(shared).start()
         WebVr(shared, dgtboard).start()
@@ -171,11 +252,57 @@ class WebServer(threading.Thread):
             (r'/event', EventHandler, dict(shared=shared)),
             (r'/dgt', DGTHandler, dict(shared=shared)),
             (r'/info', InfoHandler, dict(shared=shared)),
-
+            (r'/query', QueryHandler, dict(shared=shared, database=db)),
+            (r'/games', GamesHandler, dict(shared=shared)),
+            (r'/engines', EngineHandler, dict(shared=shared)),
             (r'/channel', ChannelHandler, dict(shared=shared)),
             (r'.*', tornado.web.FallbackHandler, {'fallback': wsgi_app})
         ])
         application.listen(port)
+
+    def init_database(self):
+        logging.debug('Initialising database')
+        try:
+            # There are no sanity checks against incoming data size.
+            # I assume that the average picochess user is not going to
+            # run out of memory! (Get the 8GB pi?)
+            # Secondly, this is the ONLY place where data is written to the
+            # database so read access should be safe across multiple
+            # threads.
+            picodb = sqlite3.connect(':memory:', check_same_thread=False)
+            logging.debug('Picochess database created in memory')
+            picocur = picodb.cursor()
+            logging.debug('Creating engines table ...')
+            picocur.execute('''CREATE TABLE engines
+                (id integer PRIMARY KEY,
+                name text,
+                levels text,
+                elo integer,
+                chess960 integer,
+                comments text,
+                location text,
+                filetype text,
+                command text
+                )''')
+            picodb.commit()
+
+            logging.debug('Listing engines ...')
+            engines = listengines.get_engines('engines/armv7l-pico')
+            logging.debug('Fetching engine json ...')
+            engjson = json.loads(engines)
+            logging.debug('Inserting engines into database')
+            for line in engjson['data']:
+                line[3] = 1 if line[3] == 'y' else 0
+                line[2] = int(line[2])
+                insert_engine = '''INSERT INTO engines 
+                    (name, levels, elo, chess960, comments, location, filetype, command)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
+                picocur.execute(insert_engine, line)
+                picodb.commit()
+
+        except sqlite3.Error as error:
+            raise sqlite3.Error('Database error: %s' % error)
+        return picodb
 
     def run(self):
         """Call by threading.Thread start() function."""
@@ -632,3 +759,4 @@ class WebDisplay(DisplayMsg, threading.Thread):
             # Check if we have something to display
             message = self.msg_queue.get()
             self._create_task(message)
+

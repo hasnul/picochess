@@ -1,0 +1,53 @@
+Only in ../engines: armv6l
+Files ../engines/armv7l/a-stockf and /tmp/chess/engines/armv7l/a-stockf differ
+Files ../engines/armv7l/a-stockf.uci and /tmp/chess/engines/armv7l/a-stockf.uci differ
+Files ../engines/armv7l/b-texel and /tmp/chess/engines/armv7l/b-texel differ
+Files ../engines/armv7l/c-arasan and /tmp/chess/engines/armv7l/c-arasan differ
+Only in /tmp/chess/engines/armv7l: crystal
+Only in /tmp/chess/engines/armv7l: crystal.uci
+Only in /tmp/chess/engines/armv7l: ct800
+Only in /tmp/chess/engines/armv7l: ct800.uci
+Only in /tmp/chess/engines/armv7l: dragontooth
+Only in /tmp/chess/engines/armv7l: dragontooth.uci
+Only in ../engines/armv7l: d-rodent
+Only in /tmp/chess/engines/armv7l: d-rodent4
+Only in /tmp/chess/engines/armv7l: d-rodent4.uci
+Only in ../engines/armv7l: d-rodent.uci
+Files ../engines/armv7l/engines.ini and /tmp/chess/engines/armv7l/engines.ini differ
+Files ../engines/armv7l/e-zurich and /tmp/chess/engines/armv7l/e-zurich differ
+Files ../engines/armv7l/e-zurich.uci and /tmp/chess/engines/armv7l/e-zurich.uci differ
+Files ../engines/armv7l/f-wyld and /tmp/chess/engines/armv7l/f-wyld differ
+Only in /tmp/chess/engines/armv7l: games.pgn
+Files ../engines/armv7l/g-galjoe and /tmp/chess/engines/armv7l/g-galjoe differ
+Files ../engines/armv7l/h-sayuri and /tmp/chess/engines/armv7l/h-sayuri differ
+Files ../engines/armv7l/i-floyd and /tmp/chess/engines/armv7l/i-floyd differ
+Only in /tmp/chess/engines/armv7l: igel
+Only in /tmp/chess/engines/armv7l: igel.uci
+Files ../engines/armv7l/l-laser and /tmp/chess/engines/armv7l/l-laser differ
+Only in ../engines/armv7l: m-cinnam
+Only in /tmp/chess/engines/armv7l: rodent.bin
+Files ../engines/armv7l/r-roboci and /tmp/chess/engines/armv7l/r-roboci differ
+Only in /tmp/chess/engines/armv7l: saruman
+Only in /tmp/chess/engines/armv7l: stash
+Only in /tmp/chess/engines/armv7l: stash.uci
+Files ../engines/armv7l/v-vajole and /tmp/chess/engines/armv7l/v-vajole differ
+Only in /tmp/chess/engines: armv7l-lc0
+Only in /tmp/chess/engines: armv7l-MAME
+Only in /tmp/chess/engines: armv7l-pico
+Only in /tmp/chess/engines: armv7l-turing
+Only in ../engines: descriptions.txt
+Only in /tmp/chess/engines: mame_emulation
+Files ../engines/README.md and /tmp/chess/engines/README.md differ
+Only in /tmp/chess/engines: rodent2
+Only in /tmp/chess/engines/rodent3/books/players: strangler.bin
+Only in /tmp/chess/engines/rodent3/personalities: atilla.uci
+Only in /tmp/chess/engines/rodent3/personalities: bosboom.uci
+Only in /tmp/chess/engines/rodent3/personalities: bryan.uci
+Only in /tmp/chess/engines/rodent3/personalities: david.uci
+Only in /tmp/chess/engines/rodent3/personalities: johnathan.uci
+Only in /tmp/chess/engines/rodent3/personalities: personality_all
+Files ../engines/rodent3/personalities/#picochess.txt and /tmp/chess/engines/rodent3/personalities/#picochess.txt differ
+Only in /tmp/chess/engines/rodent3/personalities: strangler.uci
+Only in /tmp/chess/engines: rodent4
+Only in /tmp/chess/engines: script_engines
+Only in ../engines: x86_64

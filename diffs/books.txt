@@ -1,0 +1,16 @@
+Files ../books/books.ini and /tmp/chess/books/books.ini differ
+Only in /tmp/chess/books: Perfect2019.bin
+Files ../books/q-komodo.bin and /tmp/chess/books/q-komodo.bin differ
+Only in /tmp/chess/books: r2-wasp.bin
+Only in /tmp/chess/books: r-morphius.bin
+Only in /tmp/chess/books: s1-cerebellum.bin
+Only in /tmp/chess/books: s2-rodent.bin
+Only in /tmp/chess/books: s3-leela32930.bin
+Only in /tmp/chess/books: s4-leelaT610.bin
+Only in ../books: s-human.bin
+Only in /tmp/chess/books: t1-human.bin
+Only in /tmp/chess/books: t2-irina.bin
+Only in ../books: t-irina.bin
+Only in ../books: z18-rodent.bin
+Only in ../books: z1-human.bin
+Only in /tmp/chess/engines/rodent3/books/players: strangler.bin

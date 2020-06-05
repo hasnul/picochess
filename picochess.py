@@ -92,6 +92,10 @@ from dgt.board import DgtBoard
 from dgt.translate import DgtTranslate
 from dgt.menu import DgtMenu
 
+import json
+import listengines
+import pgnjson
+import sqlite3
 
 class AlternativeMover:
 
@@ -111,7 +115,7 @@ class AlternativeMover:
     def book(self, bookreader, game_copy: chess.Board):
         """Get a BookMove or None from game position."""
         try:
-            choice = bookreader.weighted_choice(game_copy, self.excludemoves)
+            choice = bookreader.weighted_choice(game_copy, exclude_moves=self.excludemoves)
         except IndexError:
             return None
 
@@ -859,7 +863,7 @@ def main():
     parser.add_argument('-pi', '--dgtpi', action='store_true', help='use the DGTPi hardware')
     parser.add_argument('-pt', '--ponder-interval', type=int, default=3, choices=range(1, 9),
                         help='how long each part of ponder display should be visible (default=3secs)')
-    parser.add_argument('-lang', '--language', choices=['en', 'de', 'nl', 'fr', 'es', 'it'], default='en',
+    parser.add_argument('-lang', '--language', choices=['en', 'de', 'nl', 'fr', 'es', 'it', 'eu'], default='en',
                         help='picochess language')
     parser.add_argument('-c', '--enable-console', action='store_true', help='use console interface')
     parser.add_argument('-cl', '--enable-capital-letters', action='store_true', help='clock messages in capital letters')

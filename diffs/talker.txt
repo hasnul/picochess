@@ -1,0 +1,11 @@
+Only in ../talker/voices/de/janniclas: xtra_enpassant.ogg
+Only in ../talker/voices/de/janniclas: xtra_help.ogg
+Only in ../talker/voices/de/janniclas: xtra_jadoube.ogg
+Only in /tmp/chess/talker/voices/en: borg
+Only in /tmp/chess/talker/voices/en: CCvoice
+Only in /tmp/chess/talker/voices/en: dmitri
+Only in /tmp/chess/talker/voices/en: GLaDOS
+Only in /tmp/chess/talker/voices/en: james
+Only in /tmp/chess/talker/voices: eu
+Files ../talker/voices/voices.ini and /tmp/chess/talker/voices/voices.ini differ
+Only in /tmp/chess/talker/voices: voices.ini.old
