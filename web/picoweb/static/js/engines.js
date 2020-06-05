@@ -1,3 +1,8 @@
+$.get('/info', {action: 'get_headers'}, function(data){
+    white = '<h4>' + data.White + '</h4>';
+    black = '<h4>' + data.Black + '</h4>';
+    $('#current_engine').html(white + black);
+    });
 
 var engineTable = $('#EngineTable').DataTable( {
     'serverSide': true,

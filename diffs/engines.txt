@@ -36,6 +36,7 @@ Only in /tmp/chess/engines: armv7l-MAME
 Only in /tmp/chess/engines: armv7l-pico
 Only in /tmp/chess/engines: armv7l-turing
 Only in ../engines: descriptions.txt
+Only in /tmp/chess/engines: hhh
 Only in /tmp/chess/engines: mame_emulation
 Files ../engines/README.md and /tmp/chess/engines/README.md differ
 Only in /tmp/chess/engines: rodent2
@@ -50,4 +51,5 @@ Files ../engines/rodent3/personalities/#picochess.txt and /tmp/chess/engines/rod
 Only in /tmp/chess/engines/rodent3/personalities: strangler.uci
 Only in /tmp/chess/engines: rodent4
 Only in /tmp/chess/engines: script_engines
+Only in /tmp/chess/engines: well69
 Only in ../engines: x86_64

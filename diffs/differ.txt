@@ -53,6 +53,7 @@ Only in /tmp/chess/engines: armv7l-MAME
 Only in /tmp/chess/engines: armv7l-pico
 Only in /tmp/chess/engines: armv7l-turing
 Only in ../engines: descriptions.txt
+Only in /tmp/chess/engines: hhh
 Only in /tmp/chess/engines: mame_emulation
 Files ../engines/README.md and /tmp/chess/engines/README.md differ
 Only in /tmp/chess/engines: rodent2
@@ -67,6 +68,7 @@ Files ../engines/rodent3/personalities/#picochess.txt and /tmp/chess/engines/rod
 Only in /tmp/chess/engines/rodent3/personalities: strangler.uci
 Only in /tmp/chess/engines: rodent4
 Only in /tmp/chess/engines: script_engines
+Only in /tmp/chess/engines: well69
 Only in ../engines: x86_64
 Only in /tmp/chess/etc: dgtpicom.old
 Only in /tmp/chess/etc: dgtpicom.so.old
@@ -83,7 +85,9 @@ Only in /tmp/chess/logs: picochess.log.2
 Only in /tmp/chess/logs: picochess.log.3
 Only in /tmp/chess/logs: picochess.log.4
 Only in /tmp/chess/logs: picochess.log.5
+Files ../picochess.ini and /tmp/chess/picochess.ini differ
 Only in ..: picochess.ini.example_v2.txt
+Files ../picochess.ini.non-pi and /tmp/chess/picochess.ini.non-pi differ
 Only in ..: README.md.old
 Only in /tmp/chess/tablebases/syzygy: KBBBvK.rtbw
 Only in /tmp/chess/tablebases/syzygy: KBBBvK.rtbz
@@ -322,4 +326,5 @@ Only in /tmp/chess/talker/voices/en: james
 Only in /tmp/chess/talker/voices: eu
 Files ../talker/voices/voices.ini and /tmp/chess/talker/voices/voices.ini differ
 Only in /tmp/chess/talker/voices: voices.ini.old
+Files ../web/picoweb/static/js/app.js and /tmp/chess/web/picoweb/static/js/app.js differ
 Only in /tmp/chess/: weights.gz

@@ -1,0 +1,1 @@
+Files ../web/picoweb/static/js/app.js and /tmp/chess/web/picoweb/static/js/app.js differ
