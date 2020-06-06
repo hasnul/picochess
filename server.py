@@ -151,7 +151,11 @@ class InfoHandler(ServerRequestHandler):
             if 'system_info' in self.shared:
                 if 'game_info' in self.shared:
                     logging.debug('Retrieving level name ...')
-                    self.shared['system_info']['level'] = self.shared['game_info']['level_name']
+                    try:
+                        self.shared['system_info']['level'] = self.shared[
+                                'game_info']['level_name']
+                    except KeyError:
+                        self.shared['system_info']['level'] = 'unknown'
                 else:
                     self.shared['system_info']['level'] = 'unknown'
                 self.write(self.shared['system_info'])
