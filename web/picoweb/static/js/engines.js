@@ -1,8 +1,10 @@
-$.get('/info', {action: 'get_headers'}, function(data){
-    white = '<h4>' + data.White + '</h4>';
-    black = '<h4>' + data.Black + '</h4>';
-    $('#current_engine').html(white + black);
+$.get('/info', {action: 'get_system_info'}, function(data){
+    engine = '<h4>Name: ' + data.engine_name + '</h4>';
+    level = '<h4>Level: ' + data.level + '</h4>';
+    $('#current_engine').html(engine + level);
+    console.log(data);
     });
+
 
 var engineTable = $('#EngineTable').DataTable( {
     'serverSide': true,

@@ -146,6 +146,11 @@ class InfoHandler(ServerRequestHandler):
         action = self.get_argument('action')
         if action == 'get_system_info':
             if 'system_info' in self.shared:
+                if 'game_info' in self.shared:
+                    logging.debug('Retrieving level name ...')
+                    self.shared['system_info']['level'] = self.shared['game_info']['level_name']
+                else:
+                    self.shared['system_info']['level'] = 'unknown'
                 self.write(self.shared['system_info'])
         if action == 'get_ip_info':
             if 'ip_info' in self.shared:
