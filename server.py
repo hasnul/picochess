@@ -241,6 +241,13 @@ class EngineHandler(ServerRequestHandler):
     def get(self):
         self.render('web/picoweb/templates/engines.html')
 
+    def post(self, *args, **kwargs):
+        action = self.get_argument('action') 
+        if action == 'select':
+            engine_id = int(self.get_argument('engine_id'))
+            engine_info = 'Engine id: ' + str(engine_id)
+            logging.debug(engine_info)
+
 
 class WebServer(threading.Thread):
     def __init__(self, port: int, dgtboard: DgtBoard):

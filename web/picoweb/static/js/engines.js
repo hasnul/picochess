@@ -11,6 +11,10 @@ var engineTable = $('#EngineTable').DataTable( {
     'ajax': {
         'url': '/query?action=get_engines'
     },
+    'select': {
+        'style': 'os',
+        'selector': 'td:not(.control)'
+    },
     'columnDefs':[
         {targets: [1, 5, 6], className: 'dt-left'}
     ],
@@ -25,4 +29,14 @@ var engineTable = $('#EngineTable').DataTable( {
         {orderable: false},
         {orderable: false}
     ]
+});
+engineTable.on('select', function(e, dt, type, indexes ) {
+    if( type === 'row') {
+        var engine_data = engineTable.rows(indexes).data()[0];
+        console.log(engine_data);
+        $.ajax({
+            type: 'POST',
+            url: '/engines?action=select&engine_id=' + engine_data[0],
+        });
+    }
 });
