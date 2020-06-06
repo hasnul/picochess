@@ -19,7 +19,7 @@ import platform
 import configparser
 import os
 from dgt.api import Dgt
-
+import logging
 
 def read_engine_ini(engine_shell=None, engine_path=None):
     """Read engine.ini and creates a library list out of it."""
@@ -68,6 +68,18 @@ def read_engine_ini(engine_shell=None, engine_path=None):
                 'text': text,
                 'name': confsect['name'],
                 'elo': confsect['elo']
-            }
-        )
+            })
+        try:
+            library[-1]['levels'] = confsect['levels']
+        except KeyError:
+            library[-1]['levels'] = '?' 
+        try:
+            library[-1]['comments'] = confsect['comments']
+        except KeyError:
+            library[-1]['comments'] = 'No comments found' 
+        try:
+            library[-1]['chess960'] = confsect['fischer chess960 support']
+        except KeyError:
+            library[-1]['chess960'] = '?' 
+            
     return library

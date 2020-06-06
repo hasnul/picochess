@@ -23,10 +23,8 @@ var engineTable = $('#EngineTable').DataTable( {
         {orderable: true},
         {orderable: true},
         {orderable: true},
-        {orderable: true, render: function(x){ return x==1 ? 'yes' : 'no' }},
+        {orderable: true, render: function(x){ return x=='y' ? 'yes' : x=='n' ? 'no' : '?'; }},
         {orderable: false, width: "30%"},
-        {orderable: false},
-        {orderable: false},
         {orderable: false}
     ]
 });

@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import datetime
 import threading
 import logging
@@ -38,8 +39,9 @@ from dgt.iface import DgtIface
 from dgt.translate import DgtTranslate
 from dgt.board import DgtBoard
 
+from uci.read import read_engine_ini
+
 import pgnjson
-import listengines
 import sqlite3
 
 # This needs to be reworked to be session based (probably by token)
@@ -182,7 +184,6 @@ class QueryHandler(ServerRequestHandler):
                 rows, total, filtered = self.getrows('engines', startpage, pagelen, sortcol, sortdir)
             else:
                 rows, total, filtered = self.getrows('engines', startpage, pagelen, sortcol, sortdir, search)
-            logging.debug("Here")
             logging.debug(total)
             query_json = '{"recordsTotal":' + str(total) + ','
             query_json += '"recordsFiltered":' + str(filtered) + ","
@@ -200,7 +201,6 @@ class QueryHandler(ServerRequestHandler):
             count_query = "SELECT COUNT(*) FROM " + table
             cursor.execute(count_query)
             total_records = cursor.fetchall()[0][0]
-            logging.debug(total_records)
             filtered_records = total_records
             query = ["SELECT * FROM", table]
             if search is not None:
@@ -290,26 +290,23 @@ class WebServer(threading.Thread):
                 name text,
                 levels text,
                 elo integer,
-                chess960 integer,
+                chess960 text,
                 comments text,
-                location text,
-                filetype text,
-                command text
+                file text
                 )''')
             picodb.commit()
 
-            logging.debug('Listing engines ...')
-            engines = listengines.get_engines('engines/armv7l-pico')
-            logging.debug('Fetching engine json ...')
-            engjson = json.loads(engines)
             logging.debug('Inserting engines into database')
-            for line in engjson['data']:
-                line[3] = 1 if line[3] == 'y' else 0
-                line[2] = int(line[2])
+            engine_path = 'engines' + os.sep + 'armv7l-pico'
+            logging.debug(engine_path)
+            engines = read_engine_ini(engine_path=engine_path)
+            for e in engines:
+                payload = [e['name'], e['levels'], e['elo'], e['chess960'],
+                    e['comments'], e['file']]
                 insert_engine = '''INSERT INTO engines 
-                    (name, levels, elo, chess960, comments, location, filetype, command)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
-                picocur.execute(insert_engine, line)
+                    (name, levels, elo, chess960, comments, file)
+                    VALUES (?, ?, ?, ?, ?, ?)'''
+                picocur.execute(insert_engine, payload)
                 picodb.commit()
 
         except sqlite3.Error as error:
