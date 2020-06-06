@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Picochess: Remotes</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/css/ladda-themeless.min.css"/>
+
+    <link rel="stylesheet" href="/static/css/bootstrap-3.3.7.min.css"/>
+    <link rel="stylesheet" href="/static/css/material-design/ripples.min.css"/>
+    <link rel="stylesheet" href="/static/css/material-design/bootstrap-material-design.min.css"/>
+
+    <link rel="stylesheet" href="/static/css/normalize-7.0.0.css"/>
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/static/css/datatables.min.css"/>
+    <link rel="stylesheet" href="/static/css/custom.css"/>
+
+    <script src="/static/js/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/bootstrap-3.3.7.min.js"></script>
+    <script src="/static/js/material-design/ripples.min.js"></script>
+    <script src="/static/js/material-design/material.min.js"></script>
+
+    <script src="/static/js/spin.min.js"></script>
+    <script src="/static/js/ladda.min.js"></script>
+    <script src="/static/js/datatables.min.js"></script>
+    <script src="/static/js/intl.js"></script>
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+</head>
+<style>
+    .dt-left {
+        text-align: left;
+    }
+</style>
+
+<body>
+<div class="container-fluid">
+    <div class="col-xs-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading hidden-xs">
+                <h3 class="panel-title">Current engine</h3>
+            </div>
+
+            <div class="panel-body">
+                <div id="current_engine" style="max-height:37%; overflow-y:auto; overflow-x:hidden; min-height:40%; position:relative;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="Database" class="col-xs-12">
+            <div class="well">
+                <table id="EngineTable" class="table table-bordered table-hover" style="font-size: 1vw; text-align: center; width: 100%;">
+                    <thead>
+                    <tr>
+            <th>id</th>
+			<th>Name</th>
+			<th>Levels</th>
+			<th>Elo</th>
+			<th>Chess960</th>
+			<th>Comments</th>
+			<th>File</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/engines.js"></script>
+</body>
+</html>

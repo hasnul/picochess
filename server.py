@@ -262,7 +262,9 @@ class EngineHandler(ServerRequestHandler):
 class WebServer(threading.Thread):
     def __init__(self, port: int, dgtboard: DgtBoard, dgttranslate: DgtTranslate):
         shared = {}
-        db, shared['engines'] = self.init_database()
+        engine_path = 'engines' + os.sep + 'armv7l-pico'
+        shared['engines'] = read_engine_ini(engine_path=engine_path)
+        self.db = self.init_database(shared['engines'])
 
         WebDisplay(shared).start()
         WebVr(shared, dgtboard).start()
@@ -274,16 +276,19 @@ class WebServer(threading.Thread):
             (r'/event', EventHandler, dict(shared=shared)),
             (r'/dgt', DGTHandler, dict(shared=shared)),
             (r'/info', InfoHandler, dict(shared=shared)),
-            (r'/query', QueryHandler, dict(shared=shared, database=db)),
+            (r'/query', QueryHandler, dict(shared=shared, database=self.db)),
             (r'/games', GamesHandler, dict(shared=shared)),
-            (r'/engines', EngineHandler, dict(shared=shared, database=db,
+            (r'/engines', EngineHandler, dict(shared=shared, database=self.db,
                 dgttranslate=dgttranslate)),
             (r'/channel', ChannelHandler, dict(shared=shared)),
             (r'.*', tornado.web.FallbackHandler, {'fallback': wsgi_app})
         ])
         application.listen(port)
 
-    def init_database(self):
+    def __del__(self):
+        self.db.close()
+
+    def init_database(self, engines):
         logging.debug('Initialising database')
         try:
             # There are no sanity checks against incoming data size.
@@ -307,22 +312,19 @@ class WebServer(threading.Thread):
                 )''')
             picodb.commit()
 
-            logging.debug('Inserting engines into database')
-            engine_path = 'engines' + os.sep + 'armv7l-pico'
-            logging.debug(engine_path)
-            engines = read_engine_ini(engine_path=engine_path)
             for e in engines:
                 payload = [e['name'], e['levels'], e['elo'], e['chess960'],
                     e['comments'], e['file']]
                 insert_engine = '''INSERT INTO engines 
                     (name, levels, elo, chess960, comments, file)
                     VALUES (?, ?, ?, ?, ?, ?)'''
+                logging.debug('Inserting engine %s into database' % e['name'])
                 picocur.execute(insert_engine, payload)
                 picodb.commit()
 
         except sqlite3.Error as error:
             raise sqlite3.Error('Database error: %s' % error)
-        return picodb, engines
+        return picodb
 
     def run(self):
         """Call by threading.Thread start() function."""

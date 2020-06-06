@@ -1603,7 +1603,8 @@ function setTitle(data) {
     } else if (window.system_info.version) {
         version = window.system_info.version;
     }
-    document.title = 'Picochess ' + version + ip;
+    version = version/100
+    document.title = 'Picochess ' + version.toFixed(2) + ip;
 }
 
 // copied from loadGame()
