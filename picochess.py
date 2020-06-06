@@ -935,7 +935,7 @@ def main():
 
     # Launch web server
     if args.web_server_port:
-        WebServer(args.web_server_port, dgtboard).start()
+        WebServer(args.web_server_port, dgtboard, dgttranslate).start()
         dgtdispatcher.register('web')
 
     if args.enable_console:

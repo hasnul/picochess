@@ -50,9 +50,10 @@ client_ips = []
 
 
 class ServerRequestHandler(tornado.web.RequestHandler):
-    def initialize(self, shared=None, database=None):
+    def initialize(self, shared=None, database=None, dgttranslate=None):
         self.shared = shared
         self.database = database
+        self.dgttranslate = dgttranslate
 
     def data_received(self, chunk):
         pass
@@ -244,15 +245,20 @@ class EngineHandler(ServerRequestHandler):
     def post(self, *args, **kwargs):
         action = self.get_argument('action') 
         if action == 'select':
-            engine_id = int(self.get_argument('engine_id'))
-            engine_info = 'Engine id: ' + str(engine_id)
+            engine_id = self.get_argument('engine_id')
+            engine_info = 'Engine id: ' + engine_id
             logging.debug(engine_info)
+            logging.debug(self.shared['engines'][int(engine_id)])
+            eng = self.shared['engines'][int(engine_id) - 1]
+            eng_text = self.dgttranslate.text('B10_okengine')
+            Observable.fire(Event.NEW_ENGINE(eng=eng, eng_text=eng_text, 
+                options={}, show_ok=True))
 
 
 class WebServer(threading.Thread):
-    def __init__(self, port: int, dgtboard: DgtBoard):
+    def __init__(self, port: int, dgtboard: DgtBoard, dgttranslate: DgtTranslate):
         shared = {}
-        db = self.init_database()
+        db, shared['engines'] = self.init_database()
 
         WebDisplay(shared).start()
         WebVr(shared, dgtboard).start()
@@ -266,7 +272,8 @@ class WebServer(threading.Thread):
             (r'/info', InfoHandler, dict(shared=shared)),
             (r'/query', QueryHandler, dict(shared=shared, database=db)),
             (r'/games', GamesHandler, dict(shared=shared)),
-            (r'/engines', EngineHandler, dict(shared=shared)),
+            (r'/engines', EngineHandler, dict(shared=shared, database=db,
+                dgttranslate=dgttranslate)),
             (r'/channel', ChannelHandler, dict(shared=shared)),
             (r'.*', tornado.web.FallbackHandler, {'fallback': wsgi_app})
         ])
@@ -311,7 +318,7 @@ class WebServer(threading.Thread):
 
         except sqlite3.Error as error:
             raise sqlite3.Error('Database error: %s' % error)
-        return picodb
+        return picodb, engines
 
     def run(self):
         """Call by threading.Thread start() function."""
