@@ -1,4 +1,4 @@
-PicoChess (Experimental)
+Picochess (Experimental)
 =======================
 
 If you're looking for *PicoChess*, you're in the wrong place.
