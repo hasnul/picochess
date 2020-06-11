@@ -1,0 +1,8 @@
+asyncio==3.4.3
+asyncssh==2.2.1
+cffi==1.14.0
+cryptography==2.9.2
+pycparser==2.20
+python-chess @ file:///home/hasnul/github/python-chess
+python-dotenv==0.13.0
+six==1.15.0
